@@ -11,12 +11,10 @@ class Hospital{
             Patient() {}
             Patient(std::string dni, std::string name, std::string info) : m_dni(dni), m_name(name), m_info(info) {}
         };
-        
         QueuePrio<std::string, int> waitList;
         std::unordered_map<std::string, Patient> patientLog;
 
     public:
-       
         void addPatient(std::string dni, std::string name, std::string info, int prio){
             patientLog[dni] = Patient(dni, name, info);
             waitList.enqueue(dni, prio);
@@ -30,17 +28,27 @@ class Hospital{
         void showWaitList(){
             if (waitList.isEmpty()) return;
 
+            printf("%10s | %12s | %15s | %5s\n", "DNI", "NAME", "INFO", "PRIO\n------------------------------------------------------");
+
             auto current = waitList.getFront(); 
-            
             while (current != nullptr){
                 std::string currentDni = current->m_data;
                 
                 Patient &p = patientLog[currentDni];
-
                 printf("%10s | %12s | %15s | %1d\n",
                         p.m_dni.c_str(), p.m_name.c_str(), p.m_info.c_str(), current->m_prio);
                 
                 current = current->m_next;
+            }
+        }
+
+        void showLog(){
+            if (patientLog.empty()) return;
+
+            for (const auto &patient : patientLog){
+                const std::string &dni = patient.first;
+                const Patient &data    = patient.second;
+                printf("DNI: %10s | NAME: %12s | INFO: %s\n", dni.c_str(), data.m_name.c_str(), data.m_info.c_str());
             }
         }
 };
@@ -67,7 +75,7 @@ int main(){
         system("cls");
         hospital.showWaitList();
 
-        std::cout << "[0] NEW PATIENT\t[1] ATTANDACE\n";
+        std::cout << "\n\n[0] NEW PATIENT\t[1] ATTANDACE\t[2] LOG\n";
         std::cin >> uInput;
 
         if (uInput == 0){
@@ -82,8 +90,14 @@ int main(){
 
             hospital.addPatient(pDni, pName, pInfo, prio);
         }
-        else {
+        else if (uInput == 1){
             hospital.attendNext();
+        }
+        else {
+            std::cout << "\n";
+            hospital.showLog();
+            std::cin.get();
+            std::cin.get();
         }
     }
     return 0;
