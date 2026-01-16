@@ -40,6 +40,10 @@ class Hospital{
                 
                 current = current->m_next;
             }
+            auto highPrioDni= waitList.getMaxPrio();
+            Patient &p = patientLog[highPrioDni->m_data];
+
+            printf("\nNEXT PATIENT: [%12s : %10s]", p.m_name.c_str(), p.m_dni.c_str());
         }
 
         void showLog(){
@@ -58,7 +62,7 @@ int main(){
     Hospital hospital;
     
     int uInput = 0;
-    int prio = 0;
+    int prio   = 0;
 
     std::string pName = "";
     std::string pDni;
@@ -72,7 +76,7 @@ int main(){
     hospital.addPatient("72725410", "Miguel"  , "Quemadura"      , 3);
    
     while (true){
-        system("cls");
+        system("clear");
         hospital.showWaitList();
 
         std::cout << "\n\n[0] NEW PATIENT\t[1] ATTANDACE\t[2] LOG\n";

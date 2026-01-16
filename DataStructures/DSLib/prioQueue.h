@@ -1,5 +1,5 @@
-#ifndef QUEUE_H
-#define QUEUE_H
+#ifndef PRIO_QUEUE_H
+#define PRIO_QUEUE_H
 
 template<typename T, typename P>
 class QueuePrio{
@@ -66,4 +66,4 @@ class QueuePrio{
         bool isEmpty() const { return m_front == nullptr; } 
 };
 
-#endif // QUEUE_H!
+#endif // PRIO_QUEUE_H!
