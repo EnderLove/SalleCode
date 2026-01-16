@@ -67,7 +67,7 @@ int main(){
         system("cls");
         hospital.showWaitList();
 
-        std::cout << "[0] NEW PACIENT\t[1] ATTANDACE\n";
+        std::cout << "[0] NEW PATIENT\t[1] ATTANDACE\n";
         std::cin >> uInput;
 
         if (uInput == 0){
