@@ -1,20 +1,46 @@
 #include <iostream>
+#include <unordered_map>
 #include "queue.h"
 
-class Hospital : public QueuePrio<std::string>{
-    
-    public:
+class Hospital{
+    private:
+        struct Patient{
+            std::string m_dni;
+            std::string m_name;
+            std::string m_info;
+            Patient() {}
+            Patient(std::string dni, std::string name, std::string info) : m_dni(dni), m_name(name), m_info(info) {}
+        };
         
-        void showQueue(){
-            Node *temp = m_front;
+        QueuePrio<std::string, int> waitList;
+        std::unordered_map<std::string, Patient> patientLog;
 
-            int format = temp->m_data.length();
+    public:
+       
+        void addPatient(std::string dni, std::string name, std::string info, int prio){
+            patientLog[dni] = Patient(dni, name, info);
+            waitList.enqueue(dni, prio);
+        }
 
-            while (temp != nullptr){
+        void attendNext(){
+            if (waitList.isEmpty()) return;
+            waitList.dequeue();
+        }
 
-                printf("NAME: %*s || PRIO: %d\n", format, temp->m_data.c_str(), temp->m_prio);
+        void showWaitList(){
+            if (waitList.isEmpty()) return;
 
-                temp = temp->m_next;
+            auto current = waitList.getFront(); 
+            
+            while (current != nullptr){
+                std::string currentDni = current->m_data;
+                
+                Patient &p = patientLog[currentDni];
+
+                printf("%10s | %12s | %15s | %1d\n",
+                        p.m_dni.c_str(), p.m_name.c_str(), p.m_info.c_str(), current->m_prio);
+                
+                current = current->m_next;
             }
         }
 };
@@ -27,32 +53,38 @@ int main(){
     int prio = 0;
 
     std::string pName = "";
-
-    hospital.enqueue("Sasha"  , 2);
+    std::string pDni;
+    std::string pInfo;
+    
+    hospital.addPatient("72725412", "Joaquin" , "Intoxicado"     , 0);
+    hospital.addPatient("72725413", "Sasha"   , "Dolor de cabeza", 3);
+    hospital.addPatient("72725414", "Jhonatan", "Drogas"         , 2);
+    hospital.addPatient("72725415", "Claudio" , "Tumor"          , 0);
+    hospital.addPatient("72725416", "Jorge"   , "Paro cardiaco"  , 1);
+    hospital.addPatient("72725410", "Miguel"  , "Quemadura"      , 3);
    
     while (true){
-        system("clear");
-        hospital.showQueue();
+        system("cls");
+        hospital.showWaitList();
 
         std::cout << "[0] NEW PACIENT\t[1] ATTANDACE\n";
         std::cin >> uInput;
 
         if (uInput == 0){
+            std::cout << "PATIENT DNI: ";
+            std::cin >> pDni;
             std::cout << "PATIENT NAME: ";
             std::cin >> pName;
-
+            std::cout << "PATIENT INFO: ";
+            std::cin >> pInfo;
             std::cout << "[0]SOFT\n[1]NORMAL\n[2]URGENT\n[3]EMERGENCY\n";
             std::cin >> prio;
 
-            hospital.enqueue(pName, prio);
+            hospital.addPatient(pDni, pName, pInfo, prio);
         }
         else {
-            hospital.dequeue();
+            hospital.attendNext();
         }
     }
-    // LEVE, NORMAL, URGENTE, EMERGENCIA
-
-    std::cout << "\nDEQUEUE\n";
-
     return 0;
 }
