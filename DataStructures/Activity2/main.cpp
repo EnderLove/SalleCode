@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-struct Student{ //NODO
+struct Student{ //
     int m_code;
     std::string m_name;
     std::string m_type;
@@ -20,14 +20,14 @@ class TramitList{
 
             Student *newNode = new Student(code, name, type, prio);
 
-            if (head == nullptr || prio < head->m_prio){
+            if (head == nullptr || prio > head->m_prio){  // WE VERIFY IF THE HIGH PRIO IS AT THE BEGGINING
                 newNode->m_next = head; 
                 head = newNode;
             }
             else {
                 Student *temp = head;
 
-                while (temp->m_next != nullptr && temp->m_next->m_prio <= prio){
+                while (temp->m_next != nullptr && temp->m_next->m_prio >= prio){
                     temp = temp->m_next;
                 }
                 newNode->m_next = temp->m_next;
@@ -35,11 +35,28 @@ class TramitList{
             }
         }
 
+        void pop(int pos){
+            if (head == nullptr) return;
+
+            Student *temp = head;
+            if (pos == 0){
+                head = head->m_next;
+                delete (temp);
+            }
+            for (int i = 0; i < pos - 1; i++){
+                temp = temp->m_next; 
+            }
+            temp->m_next = temp->m_next->m_next;
+        }
+
         void showList(){
             Student *temp = head;
+            int i = 0;
             while (temp->m_next != nullptr){
-                std::cout << "CODE: " << temp->m_code << " || NAME: " << temp->m_name << " || TYPE: " << temp->m_type << " || PRIO: " << temp->m_prio << std::endl;
+                printf("POS: %d || CODE: %6d || NAME: %11s || TYPE: %12s || PRIO: %d\n",
+                        i, temp->m_code, temp->m_name.c_str(), temp->m_type.c_str(), temp->m_prio);
                 temp = temp->m_next;
+                i++;
             }
         }
 };
@@ -47,7 +64,6 @@ class TramitList{
 int main(){
     TramitList tramitList;
 
-    std::cout << "HELLO WORLD\n";
     tramitList.insert(192378, "Joaquin" , "Beca"      , 3);
     tramitList.insert(192378, "Leonardo", "Nose"      , 1);
     tramitList.insert(192378, "Ruku"    , "Aplazado"  , 4);
@@ -55,8 +71,9 @@ int main(){
     tramitList.insert(192378, "BayBay"  , "Retiro"    , 1);
     tramitList.insert(192378, "Xhull"   , "Titulacion", 3);
 
-
-    std::cout << "HELLO WORLD\n";
+    tramitList.showList();
+    std::cout << "\n";
+    tramitList.pop(4);
     tramitList.showList();
 
     return 0;
