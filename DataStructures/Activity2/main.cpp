@@ -1,9 +1,7 @@
 // CODIGO, NOMBRE, TIPO DE TRAMITE, PRIORIDAD ( ALTA, MEDIA, BAJA )
 // INSERTAR SOLICITUD, MOSTRAR SOLICITUD, BUSCAR POR CODIGO, ELIMINAR SOLICITUD
-
 #include <iostream>
 #include <string>
-
 
 struct Student{ //NODO
     int m_code;
@@ -19,19 +17,21 @@ class TramitList{
         Student *head = nullptr;
 
         void insert(int code, std::string name, std::string type, int prio){
-            
-            if (head == nullptr){
-                head= new Student(code, name, type, prio, head);
+
+            Student *newNode = new Student(code, name, type, prio);
+
+            if (head == nullptr || prio < head->m_prio){
+                newNode->m_next = head; 
+                head = newNode;
             }
             else {
                 Student *temp = head;
 
-                while (temp != nullptr){
-                    if (prio <= temp->m_prio){
-                        temp = temp->m_next;
-                    } 
+                while (temp->m_next != nullptr && temp->m_next->m_prio <= prio){
+                    temp = temp->m_next;
                 }
-                temp = new Student(code, name, type, prio, temp);
+                newNode->m_next = temp->m_next;
+                temp->m_next = newNode;
             }
         }
 
@@ -47,6 +47,7 @@ class TramitList{
 int main(){
     TramitList tramitList;
 
+    std::cout << "HELLO WORLD\n";
     tramitList.insert(192378, "Joaquin" , "Beca"      , 3);
     tramitList.insert(192378, "Leonardo", "Nose"      , 1);
     tramitList.insert(192378, "Ruku"    , "Aplazado"  , 4);
@@ -54,6 +55,8 @@ int main(){
     tramitList.insert(192378, "BayBay"  , "Retiro"    , 1);
     tramitList.insert(192378, "Xhull"   , "Titulacion", 3);
 
+
+    std::cout << "HELLO WORLD\n";
     tramitList.showList();
 
     return 0;
