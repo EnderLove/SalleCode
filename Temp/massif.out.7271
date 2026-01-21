@@ -1,0 +1,70 @@
+desc: (none)
+cmd: ./test
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=1961368
+mem_heap_B=73728
+mem_heap_extra_B=8
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=1969161
+mem_heap_B=800073728
+mem_heap_extra_B=2000
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=8198747181
+mem_heap_B=800074752
+mem_heap_extra_B=2008
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=8198758938
+mem_heap_B=800074752
+mem_heap_extra_B=2008
+mem_stacks_B=0
+heap_tree=peak
+n2: 800074752 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n0: 800000000 0x1092D9: main (in /home/ender/Projects/Temp/SalleCode/Temp/test)
+ n0: 74752 in 2 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=5
+#-----------
+time=8198758938
+mem_heap_B=74752
+mem_heap_extra_B=16
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=8198771151
+mem_heap_B=1024
+mem_heap_extra_B=8
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=8198772331
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
