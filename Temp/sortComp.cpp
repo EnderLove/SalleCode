@@ -14,7 +14,6 @@ void sortAlgorithm(int arr[], int SIZE){
     //showArr(arr, SIZE);
 
     auto end = std::chrono::high_resolution_clock::now();
-    auto dif = end - start;
     std::chrono::duration<double, std::milli> duration = end - start; 
     std::cout << "\nTIME: " << duration.count() << std::endl;
 }
