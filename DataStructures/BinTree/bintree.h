@@ -25,7 +25,6 @@ template <typename T> class BTree{
                 root = newNode;
                 return;
             }
-
             
         }
 
