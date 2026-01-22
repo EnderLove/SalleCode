@@ -70,6 +70,39 @@ template <typename T> class BTree{
                 inTravOrder(node->m_right);
             }
         }
+       
+        void preOrder(Node *node){
+            if (node != nullptr){
+                std::cout << node->m_data << std::endl;
+                preOrder(node->m_left);
+                preOrder(node->m_right);
+            }
+        }
+
+        void postOrder(Node *node){
+            if (node != nullptr){
+                postOrder(node->m_left);
+                postOrder(node->m_right);
+                std::cout << node->m_data << std::endl;
+            }
+        }
+
+        void levelOrder(Node *root, Node *node){
+
+            return;
+        }
+        
+        T &path(Node *node, std::string path){
+            Node *temp = node; 
+            for (char it : path){
+                if (temp == nullptr) return node->m_data;
+
+                if (it == '_'){ break; }
+                if (it == 'R'){ temp = temp->m_right; }
+                if (it == 'L'){ temp = temp->m_left;  }
+            }     
+            return temp->m_data;
+        }
 
         void showTree(Node* temp){
             if (temp == nullptr) return;

@@ -18,6 +18,14 @@ int main(){
     //tree.showTree(root);
     
     tree.inTravOrder(root);
+    std::cout << "\n\n";
+    tree.preOrder(root);
+    std::cout << "\n\n";
+    tree.postOrder(root);
+
+    int &val = tree.path(root, "RLR");
+
+    std::cout << "\n\n" << val << std::endl;
 
     return 0;
 }
