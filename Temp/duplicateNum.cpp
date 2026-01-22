@@ -69,9 +69,9 @@ int main(){
     for (u_int i = 0; i < ARR_SIZE; i++) { arr[i] = rand() % RANGE; }
 
     //showDull(arr); 
-    //showOptim(arr);
+    showOptim(arr);
     //showHyper(arr);
-    showSort(arr);
+    //showSort(arr);
 
     end = clock();
 
