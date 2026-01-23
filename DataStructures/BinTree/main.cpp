@@ -1,29 +1,28 @@
 #include <iostream>
 #include "bintree.h"
 
+typedef int tree_t;
 
 int main(){
+    BST<tree_t> tree;
 
-    BTree<int> tree;
-    auto root = tree.getRoot();
-
-    root = tree.insert(root, 10);
-    root = tree.insert(root, 4);
-    root = tree.insert(root, 30);
-    root = tree.insert(root, 6);
-    root = tree.insert(root, 15);
-    root = tree.insert(root, 1);
-    root = tree.insert(root, 20);
+    tree.insert(10);
+    tree.insert(4);
+    tree.insert(30);
+    tree.insert(6);
+    tree.insert(15);
+    tree.insert(1);
+    tree.insert(20);
     
     //tree.showTree(root);
     
-    tree.inTravOrder(root);
-    std::cout << "\n\n";
-    tree.preOrder(root);
-    std::cout << "\n\n";
-    tree.postOrder(root);
+    //tree.inTravOrder(root);
+    //std::cout << "\n\n";
+    //tree.preOrder(root);
+    //std::cout << "\n\n";
+    //tree.postOrder(root);
 
-    int &val = tree.path(root, "RLR");
+    tree_t &val = tree.pathR("RLR");
 
     std::cout << "\n\n" << val << std::endl;
 

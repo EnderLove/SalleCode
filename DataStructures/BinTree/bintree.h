@@ -2,11 +2,12 @@
 #define BIN_TREE_H
 
 #include <iostream>
+#include <stdexcept>
 
-template <typename T> class BTree{
+template <typename T> class BST{
     private: 
         struct Node{
-            T m_data;
+            T     m_data;
             Node *m_left;
             Node *m_right;
             Node (T data, Node *leftNode = nullptr, Node *rightNode = nullptr) :
@@ -15,28 +16,20 @@ template <typename T> class BTree{
     
         Node *root;
 
-    public:
-        BTree() : root(nullptr){ }
-
-        Node *insert(Node *node, int data){
+        Node *insert(Node *node, T data){
             if (node == nullptr) { return new Node(data); }
 
-            if (data < node->m_data){
-                node->m_left = insert(node->m_left, data);
-            } else if (data > node->m_data){
-                node->m_right = insert(node->m_right, data);
-            }
+            if      (data < node->m_data) node->m_left  = insert(node->m_left,  data);
+            else if (data > node->m_data) node->m_right = insert(node->m_right, data);
             return node;
         }
-
+        
         Node *delNode(Node *node, T data){
-            if (node == nullptr) return node;
+            if (node == nullptr) return nullptr;
 
-            if (data < node->m_data){
-                node->m_left = delNode(node->m_left, data);
-            } else if (data > node->m_data){
-                node->m_right = delNode(node->m_right, data);
-            } else {
+            if      (data < node->m_data){ node->m_left  = delNode(node->m_left,  data); }
+            else if (data > node->m_data){ node->m_right = delNode(node->m_right, data); }
+            else {
                 if (node->m_left == nullptr){
                     Node *temp = node->m_right;
                     delete (node);
@@ -46,8 +39,56 @@ template <typename T> class BTree{
                     delete (node);
                     return temp;
                 }
+                
+                Node *temp    = findMin(node->m_right);
+                node->m_data  = temp->m_data;
+                node->m_right = delNode(node->m_right, temp->m_data);
             }
+            return node;
+        } 
+
+        void destroyer(Node *node){
+            if (node == nullptr) return;
+            destroyer(node->m_left);
+            destroyer(node->m_right);
+            delete (node);
         }
+
+        T &pathR(Node *node, const std::string &path, int index){
+            if (node == nullptr) throw std::runtime_error("EMPTY TREE");
+
+            if (index >= path.length() || path[index] == '_') return node->m_data;
+
+            if      (path[index] == 'R') return pathR(node->m_right, path, index + 1);
+            else if (path[index] == 'L') return pathR(node->m_left , path, index + 1);
+
+            return node->m_data;
+        }
+
+        T &pathL(Node *node, std::string path){
+            if (root == nullptr) throw std::runtime_error("EMPTY TREE");
+
+            Node *temp = root;
+            for (char direction : path){
+                if (direction == '_') break;
+
+                if (direction == 'R'){
+                    if (temp->m_left != nullptr) temp = temp->m_right;
+                    else throw std::runtime_error("PATH LEADS TO NULL");
+                } else if (direction == 'L'){
+                    if (temp->m_left != nullptr) temp = temp->m_left;
+                    else throw std::runtime_error("PATH LEADS TO NULL");
+                }
+            }
+            return temp->m_data;
+        }
+
+    public:
+        BST() : root(nullptr){ }
+        ~BST() { destroyer(root); }
+
+        void insert (T data) { root = insert (root, data); } 
+        void delNode(T data) { root = delNode(root, data); } 
 
         Node *findMin(Node *node){
             while (node && node->m_left != nullptr){ node = node->m_left; }
@@ -91,18 +132,9 @@ template <typename T> class BTree{
 
             return;
         }
-        
-        T &path(Node *node, std::string path){
-            Node *temp = node; 
-            for (char it : path){
-                if (temp == nullptr) return node->m_data;
-
-                if (it == '_'){ break; }
-                if (it == 'R'){ temp = temp->m_right; }
-                if (it == 'L'){ temp = temp->m_left;  }
-            }     
-            return temp->m_data;
-        }
+       
+        T &pathR(std::string path){ return pathR(root, path, 0); }
+        T &pathL(std::string path){ return pathL(root, path   ); }
 
         void showTree(Node* temp){
             if (temp == nullptr) return;
@@ -114,7 +146,6 @@ template <typename T> class BTree{
                 showTree(temp->m_right);
             }        
         }
-
 
         Node *getRoot(){ return root; }
 };
