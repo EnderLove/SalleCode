@@ -1,8 +1,9 @@
-#ifndef BIN_TREE_H
-#define BIN_TREE_H
+#ifndef BST_LIB_H
+#define BST_LIB_H
 
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 template <typename T> class BST{
     private: 
@@ -83,6 +84,29 @@ template <typename T> class BST{
             return temp->m_data;
         }
 
+        void levelOrderRec(Node *root, int level, std::vector<std::vector<int>> &res){
+            if (root == nullptr) return;
+
+            if (res.size() <= level) res.push_back({});
+
+            res[level].push_back(root->m_data);
+
+            levelOrderRec(root->m_left , level + 1, res);
+            levelOrderRec(root->m_right, level + 1, res);
+        }
+
+        void sumLevelRec(Node *root, int level, std::vector<int> &sum){
+            if (root == nullptr) return;
+
+            if (sum.size() <= level) sum.push_back({});
+    
+            sum[level] += root->m_data;
+
+            sumLevelRec(root->m_left , level + 1, sum);
+            sumLevelRec(root->m_right, level + 1, sum);
+        }
+
+
     public:
         BST() : root(nullptr){ }
         ~BST() { destroyer(root); }
@@ -103,7 +127,7 @@ template <typename T> class BST{
             }
             return searchNode(node->m_right, data);
         }
-
+        
         void inTravOrder(Node *node){
             if (node != nullptr){
                 inTravOrder(node->m_left);
@@ -128,11 +152,22 @@ template <typename T> class BST{
             }
         }
 
-        void levelOrder(Node *root, Node *node){
+        std::vector<std::vector<int>> levelOrder(){
 
-            return;
+            std::vector<std::vector<int>> res;
+
+            levelOrderRec(root, 0, res);
+            return res;
         }
        
+        std::vector<int> sumLevel(){
+            std::vector<int> sum;
+           
+            sumLevelRec(root, 0, sum);
+
+            return sum;
+        }
+      
         T &pathR(std::string path){ return pathR(root, path, 0); }
         T &pathL(std::string path){ return pathL(root, path   ); }
 
@@ -150,4 +185,4 @@ template <typename T> class BST{
         Node *getRoot(){ return root; }
 };
 
-#endif // BIN_TREE_H!
+#endif // BST_LIB_H!

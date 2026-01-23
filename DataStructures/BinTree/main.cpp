@@ -27,5 +27,19 @@ int main(){
 
     std::cout << "\n\n" << val << std::endl;
 
+    auto vecT = tree.levelOrder();
+    auto sumT = tree.sumLevel();
+
+    for (std::vector<int> &level : vecT){
+        for (auto val : level){
+            std::cout << val << " ";
+        }
+        std::cout << "\n";
+    }
+
+    for (auto it : sumT){
+        std::cout << it << " ";
+    }
+
     return 0;
 }
