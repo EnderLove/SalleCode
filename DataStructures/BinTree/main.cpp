@@ -1,45 +1,36 @@
 #include <ctime>
 #include <iostream>
+#include <vector>
 #include "bstlib.h"
 
 typedef int tree_t;
 
 int main(){
     BST<tree_t> tree;
+   
+    std::vector<int> values = {10, 4, 30, 6, 15, 1, 20};
 
-    tree.insert(10);
-    tree.insert(4);
-    tree.insert(30);
-    tree.insert(6);
-    tree.insert(15);
-    tree.insert(1);
-    tree.insert(20);
+    for (int val : values) tree.insert(val);
     
-    //tree.showTree(root);
-    
-    //tree.inTravOrder(root);
-    //std::cout << "\n\n";
-    //tree.preOrder(root);
-    //std::cout << "\n\n";
-    //tree.postOrder(root);
+    std::string path = "RLR";
+    tree_t &val = tree.pathR(path);
 
-    tree_t &val = tree.pathR("RLR");
+    std::cout << "\n" << path << ": " << val << "\n"; 
 
-    std::cout << "\n\n" << val << std::endl;
+    auto levelVec = tree.levelOrder();
+    auto sumT     = tree.sumLevel();
 
-    auto vecT = tree.levelOrder();
-    auto sumT = tree.sumLevel();
-
-    for (std::vector<int> &level : vecT){
+    std::cout << "\nLEVEL ORDER: \n";
+    for (std::vector<int> &level : levelVec){
         for (auto val : level){
             std::cout << val << " ";
         }
         std::cout << "\n";
     }
 
-    for (auto it : sumT){
-        std::cout << it << " ";
-    }
+    std::cout << "\nSUM LEVEL: ";
+    for (auto it : sumT) std::cout << it << " ";
 
+    std::cout << "\n";
     return 0;
 }

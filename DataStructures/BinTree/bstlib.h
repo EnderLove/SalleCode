@@ -171,17 +171,6 @@ template <typename T> class BST{
         T &pathR(std::string path){ return pathR(root, path, 0); }
         T &pathL(std::string path){ return pathL(root, path   ); }
 
-        void showTree(Node* temp){
-            if (temp == nullptr) return;
-            
-            if (temp != nullptr){
-                std::cout << temp->m_data << std::endl;
-                
-                showTree(temp->m_left);
-                showTree(temp->m_right);
-            }        
-        }
-
         Node *getRoot(){ return root; }
 };
 
