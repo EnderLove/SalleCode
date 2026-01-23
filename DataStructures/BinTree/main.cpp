@@ -1,6 +1,6 @@
 #include <ctime>
 #include <iostream>
-#include "bintree.h"
+#include "bstlib.h"
 
 typedef int tree_t;
 
