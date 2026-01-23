@@ -34,7 +34,7 @@ template <typename T> class BST{
                     Node *temp = node->m_right;
                     delete (node);
                     return temp;
-                } else if (node->m_right){
+                } else if (node->m_right == nullptr){
                     Node *temp = node->m_left;
                     delete (node);
                     return temp;
