@@ -11,8 +11,7 @@ template <typename T> class BST{
             T     m_data;
             Node *m_left;
             Node *m_right;
-            Node (T data, Node *leftNode = nullptr, Node *rightNode = nullptr) :
-                m_data(data), m_left(leftNode), m_right(rightNode) {} 
+            Node (T data, Node *leftNode = nullptr, Node *rightNode = nullptr) : m_data(data), m_left(leftNode), m_right(rightNode) {} 
         };
     
         Node *root;
