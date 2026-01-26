@@ -8,7 +8,7 @@ typedef int tree_t;
 int main(){
     BST<tree_t> tree;
    
-    std::vector<int> values = {10, 4, 30, 6, 15, 1, 20};
+    std::vector<int> values = {10, 4, 30, 6, 15, 1, 20, 45};
 
     for (int val : values) tree.insert(val);
     
@@ -16,6 +16,8 @@ int main(){
     tree_t &val = tree.pathR(path);
 
     std::cout << "\n" << path << ": " << val << "\n"; 
+
+    tree.delNode(15);
 
     auto levelVec = tree.levelOrder();
     auto sumT     = tree.sumLevel();

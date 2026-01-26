@@ -12,10 +12,10 @@ int main(){
 
     for (int val : values) tree.insert(val);
     
-    std::string path = "RLR";
-    tree_t &val = tree.pathR(path);
+    std::string path = "RLRR";
+    //tree_t &val = tree.pathR(path);
 
-    std::cout << "\n" << path << ": " << val << "\n"; 
+//    std::cout << "\n" << path << ": " << val << "\n"; 
 
     auto levelVec = tree.levelOrder();
     auto sumT     = tree.sumLevel();
@@ -29,13 +29,24 @@ int main(){
     }
 
     std::cout << "\nSUM LEVEL: ";
-    for (auto it : sumT){
-        std::cout << it << " ";}
+    for (auto it : sumT){ std::cout << it << " "; }
 
     std::cout << "\n";
 
     int height = tree.height();
     std::cout << "height: " << height << std::endl;
+
+
+    tree.destroyer(tree.getRoot());
+
+    levelVec = tree.levelOrder();
+    std::cout << "\nLEVEL ORDER: \n";
+    for (std::vector<int> &level : levelVec){
+        for (auto val : level){
+            std::cout << val << " ";
+        }
+        std::cout << "\n";
+    }
 
     return 0;
 }

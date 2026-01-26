@@ -58,6 +58,21 @@ template <typename T> class BST{
                 node->m_data  = temp->m_data;
                 node->m_right = delNode(node->m_right, temp->m_data);
             }
+
+            int balanceF = getBalanceF(node);
+
+            if        (balanceF ==  2 && getBalanceF(node->m_left ) >=  1){
+                node = rightRotation(node);
+            } else if (balanceF ==  2 && getBalanceF(node->m_left ) <= -1){
+                node->m_left = leftRotation(node->m_left);
+                node = rightRotation(node);
+            } else if (balanceF == -2 && getBalanceF(node->m_right) <= -1){
+                node = leftRotation(node);
+            } else if (balanceF == -2 && getBalanceF(node->m_left ) >=  1){
+                node->m_right = rightRotation(node->m_right);
+                node = leftRotation(node);
+            }
+            
             return node;
         } 
 

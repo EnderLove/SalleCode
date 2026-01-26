@@ -2,7 +2,6 @@
 #define BST_LIB_H
 
 #include <iostream>
-#include <stdexcept>
 #include <vector>
 
 template <typename T> class BST{
@@ -48,6 +47,7 @@ template <typename T> class BST{
             return node;
         } 
 
+    public:
         void destroyer(Node *node){
             if (node == nullptr) return;
             destroyer(node->m_left);
