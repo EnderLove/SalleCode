@@ -1,8 +1,7 @@
-#ifndef BST_LIB_H
-#define BST_LIB_H
+#ifndef AVL_LIB_H
+#define AVL_LIB_H
 
 #include <iostream>
-#include <stdexcept>
 #include <vector>
 
 template <typename T> class BST{
@@ -22,6 +21,20 @@ template <typename T> class BST{
 
             if      (data < node->m_data) node->m_left  = insert(node->m_left,  data);
             else if (data > node->m_data) node->m_right = insert(node->m_right, data);
+
+            int balanceF = getBalanceF(node);
+
+            if        (balanceF >  1 && data < node->m_left->m_data){
+                return rightRotation(node);
+            } else if (balanceF < -1 && data > node->m_right->m_data){
+                return leftRotation(node);
+            } else if (balanceF >  1 && data > node->m_left->m_data){
+                node->m_left = leftRotation(node->m_left);
+                return rightRotation(node);
+            } else if (balanceF < -1 && data < node->m_right->m_data){
+                node->m_right = rightRotation(node->m_right);
+                return leftRotation(node);
+            }
             return node;
         }
         
@@ -56,7 +69,8 @@ template <typename T> class BST{
         }
 
         T &pathR(Node *node, const std::string &path, int index){
-            if (node == nullptr) throw std::runtime_error("EMPTY TREE");
+            if (node == nullptr && index == 0) throw std::runtime_error("EMPTY TREE");
+            if (node == nullptr) throw std::runtime_error("PATH LEADS TO NULL");
 
             if (index >= path.length() || path[index] == '_') return node->m_data;
 
@@ -74,7 +88,7 @@ template <typename T> class BST{
                 if (direction == '_') break;
 
                 if (direction == 'R'){
-                    if (temp->m_left != nullptr) temp = temp->m_right;
+                    if (temp->m_right!= nullptr) temp = temp->m_right;
                     else throw std::runtime_error("PATH LEADS TO NULL");
                 } else if (direction == 'L'){
                     if (temp->m_left != nullptr) temp = temp->m_left;
@@ -116,6 +130,31 @@ template <typename T> class BST{
             else return (rightH + 1);
 
             return 0;
+        }
+
+        int getBalanceF(Node *node){
+            if (node == nullptr) return -1;
+            else return (heightRec(node->m_left) - heightRec(node->m_right));
+        }
+
+    //======================== ROTATIONS ============================
+
+        Node *rightRotation(Node *node){
+            Node *x  = node->m_left;
+            Node *T2 = x->m_right;
+
+            x->m_right   = node;
+            node->m_left = T2;
+            return x;
+        }
+
+        Node *leftRotation(Node *node){
+            Node *x  = node->m_right;
+            Node *T2 = x->m_left;
+
+            x->m_left     = node;
+            node->m_right = T2;
+            return x;
         }
 
 
@@ -188,4 +227,4 @@ template <typename T> class BST{
         Node *getRoot(){ return root; }
 };
 
-#endif // BST_LIB_H!
+#endif // AVL_LIB_H!

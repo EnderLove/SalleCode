@@ -1,7 +1,7 @@
 #include <ctime>
 #include <iostream>
 #include <vector>
-#include "bstlib.h"
+#include "avllib.h"
 
 typedef int tree_t;
 
@@ -12,7 +12,7 @@ int main(){
 
     for (int val : values) tree.insert(val);
     
-    std::string path = "RLR";
+    std::string path = "RL";
     tree_t &val = tree.pathR(path);
 
     std::cout << "\n" << path << ": " << val << "\n"; 
