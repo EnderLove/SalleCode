@@ -6,7 +6,7 @@
 typedef int tree_t;
 
 int main(){
-    BST<tree_t> tree;
+    AVL<tree_t> tree;
    
     std::vector<int> values = {10, 4, 30, 6, 15, 1, 20, 45};
 
@@ -38,6 +38,8 @@ int main(){
 
     int height = tree.height();
     std::cout << "height: " << height << std::endl;
+
+    tree.printTree();
 
     return 0;
 }

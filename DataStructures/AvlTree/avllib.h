@@ -4,7 +4,9 @@
 #include <iostream>
 #include <vector>
 
-template <typename T> class BST{
+const int INDENT_CONST = 8;
+
+template <typename T> class AVL{
     private: 
         struct Node{
             T     m_data;
@@ -21,6 +23,7 @@ template <typename T> class BST{
 
             if      (data < node->m_data) node->m_left  = insert(node->m_left,  data);
             else if (data > node->m_data) node->m_right = insert(node->m_right, data);
+            printTree(); 
 
             int balanceF = getBalanceF(node);
 
@@ -58,6 +61,7 @@ template <typename T> class BST{
                 node->m_data  = temp->m_data;
                 node->m_right = delNode(node->m_right, temp->m_data);
             }
+            printTree();
 
             int balanceF = getBalanceF(node);
 
@@ -172,10 +176,26 @@ template <typename T> class BST{
             return x;
         }
 
+    //================================================================
+
+        void printTree(Node *node, int indent){
+            if (node == nullptr) return;
+
+            indent += INDENT_CONST;
+
+            printTree(node->m_right, indent);
+            
+            std::cout << "\n";
+            for (int i = INDENT_CONST; i < indent; i++) std::cout << " ";
+
+            std::cout << node->m_data << "\n";
+
+            printTree(node->m_left, indent);
+        }
 
     public:
-        BST() : root(nullptr){ }
-        ~BST() { destroyer(root); }
+        AVL() : root(nullptr){ }
+        ~AVL() { destroyer(root); }
 
         void insert (T data) { root = insert (root, data); } 
         void delNode(T data) { root = delNode(root, data); } 
@@ -193,44 +213,16 @@ template <typename T> class BST{
             }
             return searchNode(node->m_right, data);
         }
-        
-        void inTravOrder(Node *node){
-            if (node != nullptr){
-                inTravOrder(node->m_left);
-                std::cout << node->m_data << std::endl;
-                inTravOrder(node->m_right);
-            }
-        }
-       
-        void preOrder(Node *node){
-            if (node != nullptr){
-                std::cout << node->m_data << std::endl;
-                preOrder(node->m_left);
-                preOrder(node->m_right);
-            }
-        }
-
-        void postOrder(Node *node){
-            if (node != nullptr){
-                postOrder(node->m_left);
-                postOrder(node->m_right);
-                std::cout << node->m_data << std::endl;
-            }
-        }
 
         std::vector<std::vector<int>> levelOrder(){
-
             std::vector<std::vector<int>> res;
-
             levelOrderRec(root, 0, res);
             return res;
         }
        
         std::vector<int> sumLevel(){
             std::vector<int> sum;
-           
             sumLevelRec(root, 0, sum);
-
             return sum;
         }
 
@@ -238,6 +230,12 @@ template <typename T> class BST{
       
         T &pathR(std::string path){ return pathR(root, path, 0); }
         T &pathL(std::string path){ return pathL(root, path   ); }
+
+        void printTree(){
+            std::cout << "==============================================\n";
+            printTree(root, 0);
+            //std::cout << "==============================================\n";
+        }
 
         Node *getRoot(){ return root; }
 };
