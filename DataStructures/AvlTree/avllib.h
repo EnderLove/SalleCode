@@ -23,7 +23,6 @@ template <typename T> class AVL{
 
             if      (data < node->m_data) node->m_left  = insert(node->m_left,  data);
             else if (data > node->m_data) node->m_right = insert(node->m_right, data);
-            printTree(); 
 
             int balanceF = getBalanceF(node);
 
@@ -61,20 +60,19 @@ template <typename T> class AVL{
                 node->m_data  = temp->m_data;
                 node->m_right = delNode(node->m_right, temp->m_data);
             }
-            printTree();
 
             int balanceF = getBalanceF(node);
 
-            if        (balanceF ==  2 && getBalanceF(node->m_left ) >=  1){
+            if        (balanceF ==  2 && getBalanceF(node->m_left ) >=  0){
                 node = rightRotation(node);
-            } else if (balanceF ==  2 && getBalanceF(node->m_left ) <= -1){
+            } else if (balanceF ==  2 && getBalanceF(node->m_left ) == -1){
                 node->m_left = leftRotation(node->m_left);
-                node = rightRotation(node);
-            } else if (balanceF == -2 && getBalanceF(node->m_right) <= -1){
+                return rightRotation(node);
+            } else if (balanceF == -2 && getBalanceF(node->m_right) <=  0){
                 node = leftRotation(node);
-            } else if (balanceF == -2 && getBalanceF(node->m_left ) >=  1){
+            } else if (balanceF == -2 && getBalanceF(node->m_left ) ==  1){
                 node->m_right = rightRotation(node->m_right);
-                node = leftRotation(node);
+                return leftRotation(node);
             }
             
             return node;
@@ -197,8 +195,8 @@ template <typename T> class AVL{
         AVL() : root(nullptr){ }
         ~AVL() { destroyer(root); }
 
-        void insert (T data) { root = insert (root, data); } 
-        void delNode(T data) { root = delNode(root, data); } 
+        void insert (T data) { root = insert (root, data); printTree(); } 
+        void delNode(T data) { root = delNode(root, data); printTree(); } 
 
         Node *findMin(Node *node){
             while (node && node->m_left != nullptr){ node = node->m_left; }
@@ -234,7 +232,6 @@ template <typename T> class AVL{
         void printTree(){
             std::cout << "==============================================\n";
             printTree(root, 0);
-            //std::cout << "==============================================\n";
         }
 
         Node *getRoot(){ return root; }
